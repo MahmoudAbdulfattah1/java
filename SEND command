@@ -1,0 +1,52 @@
+package com.company;
+
+import java.net.*;
+import java.io.*;
+import java.util.Scanner;
+
+public class client {
+    static Scanner inp = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        OutputStreamWriter out = null;
+        BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader =null;
+        BufferedWriter bufferedWriter=null;
+        Socket socket = null ;
+        try {
+           socket= new Socket("localhost", 9999);
+           out = new OutputStreamWriter(socket.getOutputStream());
+           bufferedWriter=new BufferedWriter(out);
+           inputStreamReader=new InputStreamReader(socket.getInputStream());
+           bufferedReader=new BufferedReader(inputStreamReader);
+            while (true) {
+               String str = inp.next();
+               String string="";
+               if(str.equals("SEND")) {
+                       bufferedWriter.write(str);
+                       bufferedWriter.newLine();
+                       bufferedWriter.flush();
+                   String s1 = inp.nextLine();
+                   bufferedWriter.write(s1);
+                   bufferedWriter.newLine();
+                   bufferedWriter.flush();
+
+
+               }
+               else if(str.equals("WHO")) {
+                   bufferedWriter.write(str);
+                   bufferedWriter.newLine();
+                   bufferedWriter.flush();
+                   string=bufferedReader.readLine();
+                   System.out.println("Server: "+string);
+               }
+
+           }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+
+    }
+}
